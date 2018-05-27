@@ -15,6 +15,13 @@ export default class LcCity {
     // 临时保存城市数据，后有大用
     this.ShortData = {};
 
+    this.isFill = false;    // 是不是回填
+    this.fillCount = {};    // 记录回填的次数
+    // 判断是否有data数据，有就是回填
+    if (option.data) {
+      this.isFill = true;
+    };
+    
     this.init();
   }
 
@@ -41,8 +48,8 @@ export default class LcCity {
                   </div>
                   <div class="lc-center" id="lcCenter">
                     <ul class="lc-ul">
-                      <div class="lc-scroll" id="lcProvince">
-                      </div>
+                    <div class="lc-scroll" id="lcProvince">
+                    </div>
                     </ul>
                     <ul class="lc-ul">
                       <div class="lc-scroll" id="lcCity">
@@ -134,6 +141,7 @@ export default class LcCity {
       return;
     };
     let html = '';
+
     for (let i = 0, leng = arr.length; i < leng; i++) {
       html += `<li class="lc-li" data-val="${arr[i]}">${arr[i]}<i class="icon"></i></li>`
     };
@@ -148,8 +156,13 @@ export default class LcCity {
       return
     };
 
+    this.select.province = province;  // 保存已选中的省份
+    this.el.lcDistrict.innerHTML = '';    // 选择省份的时候，没有选中城市，要去掉区域
+
     this.select.city = '';  // 更改省份之后，清空城市和区域
     this.select.district = '';  // 更改省份之后，清空城市和区域
+    this.renderNav();   // 渲染导航，要在数据清除之后
+
     let arr = [];
 
     for (var key in cityData) {
@@ -175,6 +188,12 @@ export default class LcCity {
     this.el.lcCity.innerHTML = html;
 
     this.onCity();    // 给每个城市添加事件
+
+    // 判断是否回填城市
+    if (this.isFill && !this.fillCount.city) {
+      this.fillCount.city = true;     // 只回填一次，否则要出大事
+      this.fillCity()
+    }
   } 
   // 根据城市获取区域数据
   getDataDistrict(city) {
@@ -182,7 +201,11 @@ export default class LcCity {
       console.log('点了同一个没有什么意思啊')
       return
     };
+    
+    this.select.city = city;  // 保存已选中的城市
     this.select.district = '';  // 更改城市之后，清空区域
+    this.renderNav();       // 渲染导航
+    this.addTranx();        // 添加偏移
 
     let ShortData = this.ShortData,    // 省份下城市的所有数据
         arr       = [];
@@ -207,27 +230,30 @@ export default class LcCity {
     this.el.lcDistrict.innerHTML = html;
 
     this.onDistrict();    // 给每个区域添加事件
+
+    // 判断是否回填区域
+    if (this.isFill && !this.fillCount.district) {
+      this.fillCount.district = true;
+      this.fillDistrict()
+    }
   }
   // 给每个省份添加事件
   onProvince() {
     let lcProvince  = this.el.lcProvince,
         aLi         = lcProvince.getElementsByTagName('li'),
         _this       = this,
-        val         = '',
-        previous    = null;    // 上一个选项
+        val         = '';
     
     for (let i = 0, length = aLi.length; i < length; i++) {
       aLi[i].addEventListener('click', function() {
-        // 给当前元素添加class，删除上一个class
-        previous && _lc.removeClass(previous, 'active');
+        // 先删除所有的class, 再给当前元素添加class
+        for (let i = 0, length = aLi.length; i < length; i++) {
+          _lc.removeClass(aLi[i], 'active');
+        };
         _lc.addClass(this, 'active');
-        previous = this;
 
-        val = this.getAttribute('data-val');
-        _this.getDataCity(val);   // 拿到选中的省份，根据省份拿城市
-        _this.select.province = val;  // 保存已选中的省份
-        _this.renderNav();
-        _this.el.lcDistrict.innerHTML = '';    // 选择省份的时候，没有选中城市，要去掉区域
+        // 拿到选中的省份，根据省份拿城市
+        _this.getDataCity(this.getAttribute('data-val'));
       });
     };
   }
@@ -236,21 +262,18 @@ export default class LcCity {
     let lcCity  = this.el.lcCity,
         aLi         = lcCity.getElementsByTagName('li'),
         _this       = this,
-        val         = '',
-        previous    = null;    // 上一个选项
+        val         = '';
     
     for (let i = 0, length = aLi.length; i < length; i++) {
       aLi[i].addEventListener('click', function() {
-        // 给当前元素添加class，删除上一个class
-        previous && _lc.removeClass(previous, 'active');
+        // 先删除所有的class, 再给当前元素添加class
+        for (let i = 0, length = aLi.length; i < length; i++) {
+          _lc.removeClass(aLi[i], 'active');
+        };
         _lc.addClass(this, 'active');
-        previous = this;
 
-        val = this.getAttribute('data-val');
-        _this.getDataDistrict(val);   // 拿到选中的城市，根据城市拿地区
-        _this.select.city = val;  // 保存已选中的城市
-        _this.renderNav();    // 渲染导航
-        _this.addTranx();
+        // 拿到选中的城市，根据城市拿地区
+        _this.getDataDistrict(this.getAttribute('data-val'));
       });
     };
   }
@@ -259,39 +282,35 @@ export default class LcCity {
     let lcDistrict  = this.el.lcDistrict,
         aLi         = lcDistrict.getElementsByTagName('li'),
         _this       = this,
-        val         = '',
-        previous    = null;    // 上一个选项
+        val         = '';
     
     for (let i = 0, length = aLi.length; i < length; i++) {
       aLi[i].addEventListener('click', function() {
-        // 给当前元素添加class，删除上一个class
-        previous && _lc.removeClass(previous, 'active');
+        // 先删除所有的class, 再给当前元素添加class
+        for (let i = 0, length = aLi.length; i < length; i++) {
+          _lc.removeClass(aLi[i], 'active');
+        };
         _lc.addClass(this, 'active');
-        previous = this;
 
         val = this.getAttribute('data-val');
-        _this.select.district = val;  // 保存已选中的城市
-        _this.renderNav();
+        // 判断是否点击相同选项
+        if (val !== _this.select.district) {
+          _this.select.district = val;  // 保存已选中的城市
+          _this.renderNav();
+        }
       });
     };
   }
 
   // 渲染导航
   renderNav() {
-    // for (let key in select) {
-    //   if (select[key] === val) {
-    //     console.log('点了同一个没有什么意思啊')
-    //     return
-    //   }
-    // };
-
     let lcNav   = this.el.lcNav,
         aSpan   = lcNav.getElementsByTagName('span'),
         select  = this.select,
         index   = 0,    // 下标记录
         html    = '';
 
-    console.log(this.select)
+    console.log(select)
     for (let key in select) {
       if (select[key]) {
         html += `<span class="lc-nav">${select[key]}</span>`;
@@ -305,8 +324,18 @@ export default class LcCity {
       }
     };
     lcNav.innerHTML = html;
+
     setTimeout(() => {
       _lc.addClass(aSpan[index-1], 'active');   // 给对应的选项添加class
+
+      // 如果是回填，这里添加class有点不一样了
+      if (this.isFill) {
+        this.fillCount.nav = true;    // 只执行一次
+        for (let i = 0, length = aSpan.length; i < length; i++) {
+          _lc.removeClass(aSpan[i], 'active');
+        };
+        _lc.addClass(aSpan[aSpan.length-1], 'active');   // 给对应的选项添加class
+      };
     }, 30);
     
     this.onNav();   // 给导航添加事件
@@ -374,9 +403,23 @@ export default class LcCity {
     return str;
   }
 
-  // 打开
-  show() {
+  // 打开，可以把当前点击触发打开的元素过来，pc端可以用到他的位置
+  show(event) {
+    // 判断是不是pc端打开
+    if (_lc.getPageSize().windowWidth > 768) {
+      let offset = _lc.getOffset(event),
+          height = event.offsetHeight;
+      console.log(height)
+      this.el.lcCitySelect.style.top = offset.top + height + 'px';
+      this.el.lcCitySelect.style.left = offset.left + 'px';
+    }
+    
     _lc.addClass(this.el.lcCitySelect, 'lc-show');
+    // 回填
+    if (this.isFill && !this.fillCount.show) {
+      this.fillCount.show = true;
+      this.backfill();
+    }
   }
   // 关闭
   close() {
@@ -387,5 +430,87 @@ export default class LcCity {
       _lc.removeClass(lcCitySelect, 'lc-show');
       _lc.removeClass(lcCitySelect, 'lc-close');
     }, 300);
+  }
+
+  // 数据回填
+  backfill() {
+    let data    = this.option.data;
+
+    if (Object.keys(data).length !== 3) {
+      console.error('data里面的数据有问题，长度必须是3位');
+      return;
+    };
+
+    for (let key in data) {
+      if (key === 'province' && data[key]) {
+        // select.province = data[key];
+      }
+      else if (key === 'city' && data[key]) {
+        // select.city = data[key];
+      }
+      else if (key === 'district' && data[key]) {
+        // select.district = data[key];
+      }
+      else {
+        console.error('请检查你传入的字段是否匹配 ' + key);
+      }
+    };
+    this.fillProvince();    // 回填省份
+  }
+  // 回填省份
+  fillProvince() {
+    let province    = this.option.data.province,
+        lcProvince  = this.el.lcProvince,
+        aLi         = lcProvince.getElementsByTagName('li'),
+        liHeight    = aLi[0].offsetHeight;  // 一个li的高度
+
+    for (let i = 0, length = aLi.length; i < length; i++) {
+      if (aLi[i].getAttribute('data-val') === province) {
+        _lc.addClass(aLi[i], 'active');
+        // 设置滚动位置，让当前选中的元素居中显示
+        lcProvince.scrollTop = (i > 4 ? i - 4 : i) * liHeight;
+      }
+    };
+
+    this.getDataCity(province);
+  }
+  // 回填城市
+  fillCity() {
+    let city      = this.option.data.city,
+        lcCity    = this.el.lcCity,
+        aLi       = lcCity.getElementsByTagName('li'),
+        liHeight  = aLi[0].offsetHeight;  // 一个li的高度
+
+    for (let i = 0, length = aLi.length; i < length; i++) {
+      if (aLi[i].getAttribute('data-val') === city) {
+        _lc.addClass(aLi[i], 'active');
+        // 设置滚动位置，让当前选中的元素居中显示
+        if (i > 5) {
+          lcCity.scrollTop = (i - 4) * liHeight;
+        }
+      }
+    };
+
+    this.getDataDistrict(city);
+  }
+  // 回填区域
+  fillDistrict() {
+    let district      = this.option.data.district,
+        lcDistrict    = this.el.lcDistrict,
+        aLi       = lcDistrict.getElementsByTagName('li'),
+        liHeight  = aLi[0].offsetHeight;  // 一个li的高度
+
+    for (let i = 0, length = aLi.length; i < length; i++) {
+      if (aLi[i].getAttribute('data-val') === district) {
+        _lc.addClass(aLi[i], 'active');
+        // 设置滚动位置，让当前选中的元素居中显示
+        if (i > 5) {
+          lcDistrict.scrollTop = (i - 4) * liHeight;
+        }
+      }
+    };
+    // 最后，填入区域选项
+    this.select.district = this.option.data.district;
+    // this.renderNav();       // 渲染导航
   }
 };
