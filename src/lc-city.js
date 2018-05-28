@@ -1,4 +1,4 @@
-import './lc-city.scss';
+import './lc-city.css';
 import cityData from './data.json';
 import _lc from './util.js';
 
@@ -100,6 +100,7 @@ export default class LcCity {
     });
     // 确定
     this.el.lcConfirm.addEventListener('click', () => {
+      // errMsg = '';
       for (let key in select) {
         if (!select[key]) {
           switch (key) {
@@ -152,7 +153,7 @@ export default class LcCity {
   // 根据省份获取城市数据
   getDataCity(province) {
     if (province === this.select.province) {
-      console.log('点了同一个没有什么意思啊')
+      // console.log('点了同一个没有什么意思啊')
       return
     };
 
@@ -198,7 +199,7 @@ export default class LcCity {
   // 根据城市获取区域数据
   getDataDistrict(city) {
     if (city === this.select.city) {
-      console.log('点了同一个没有什么意思啊')
+      // console.log('点了同一个没有什么意思啊')
       return
     };
     
@@ -310,7 +311,7 @@ export default class LcCity {
         index   = 0,    // 下标记录
         html    = '';
 
-    console.log(select)
+    // console.log(select)
     for (let key in select) {
       if (select[key]) {
         html += `<span class="lc-nav">${select[key]}</span>`;
@@ -402,14 +403,18 @@ export default class LcCity {
     };
     return str;
   }
+  // 获取选中的数据，直接返回一个对象
+  getSelectObj() {
+    return this.select;
+  }
 
   // 打开，可以把当前点击触发打开的元素过来，pc端可以用到他的位置
   show(event) {
     // 判断是不是pc端打开
-    if (_lc.getPageSize().windowWidth > 768) {
+    if (_lc.getPageSize().windowWidth > 768 && event) {
       let offset = _lc.getOffset(event),
           height = event.offsetHeight;
-      console.log(height)
+          
       this.el.lcCitySelect.style.top = offset.top + height + 'px';
       this.el.lcCitySelect.style.left = offset.left + 'px';
     }
@@ -453,6 +458,7 @@ export default class LcCity {
       }
       else {
         console.error('请检查你传入的字段是否匹配 ' + key);
+        return
       }
     };
     this.fillProvince();    // 回填省份
@@ -511,6 +517,5 @@ export default class LcCity {
     };
     // 最后，填入区域选项
     this.select.district = this.option.data.district;
-    // this.renderNav();       // 渲染导航
   }
 };

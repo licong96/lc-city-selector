@@ -1,8 +1,8 @@
 {
   "name": "lc-city-selector",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "description": "城市选择器",
-  "main": "index.js",
+  "main": "src/lc-city.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
