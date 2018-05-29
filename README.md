@@ -1,7 +1,8 @@
 ﻿# 省-市-区三级联动选择器
 ----------
 ## 效果 ##
-![效果][1]
+演示地址：[https://licong96.github.io/demo/lc-city-selector/dist/][1]
+![效果][2]
 ## 无依赖 ##
 纯js手写，不依赖任何插件
 ## 安装 ##
@@ -83,4 +84,5 @@ yarn安装：
     
 
 
-  [1]: https://licong96.github.io/image/gif/lc-city-selector.gif
+  [1]: https://licong96.github.io/demo/lc-city-selector/dist/
+  [2]: https://licong96.github.io/image/gif/lc-city-selector.gif
