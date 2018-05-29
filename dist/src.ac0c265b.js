@@ -77,7 +77,7 @@ parcelRequire = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({11:[function(require,module,exports) {
+})({10:[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -107,7 +107,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],10:[function(require,module,exports) {
+},{}],9:[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -138,13 +138,13 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":11}],6:[function(require,module,exports) {
+},{"./bundle-url":10}],6:[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
         module.hot.accept(reloadCSS);
       
-},{"_css_loader":10}],7:[function(require,module,exports) {
+},{"_css_loader":9}],7:[function(require,module,exports) {
 module.exports = {
   "北京市": {
     "市辖区": ["东城区", "西城区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云区", "延庆区"]
@@ -1704,7 +1704,7 @@ baseInput.addEventListener('click', function (e) {
 // defaultInput.addEventListener('click', function() {
 //   defaultCity.show();
 // });
-},{"./lc-city.js":4}],13:[function(require,module,exports) {
+},{"./lc-city.js":4}],11:[function(require,module,exports) {
 
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -1734,7 +1734,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '64695' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '58873' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -1873,5 +1873,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[13,2])
+},{}]},{},[11,2])
 //# sourceMappingURL=/src.ac0c265b.map

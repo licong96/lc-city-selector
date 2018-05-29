@@ -1,7 +1,7 @@
 {
   "name": "lc-city-selector",
-  "version": "1.0.8",
-  "description": "城市选择器",
+  "version": "1.0.10",
+  "description": "city-selector",
   "main": "src/lc-city.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,10 @@
     "url": "git+https://github.com/licong96/lc-city-selector.git"
   },
   "keywords": [
-    "city"
+    "city-selector",
+    "城市选择器",
+    "selector",
+    "licong96"
   ],
   "author": "黎聪",
   "license": "ISC",
@@ -25,5 +28,10 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "node-sass": "^4.9.0"
-  }
+  },
+  "browserslist": [
+    "iOS >= 7",
+    "Firefox >= 20",
+    "Android >= 4"
+  ]
 }

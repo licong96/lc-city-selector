@@ -21,6 +21,9 @@ export default class LcCity {
     if (option.data) {
       this.isFill = true;
     };
+
+    // 生成一个随机数
+    this.randomNum = parseInt(Math.random() * 1000);
     
     this.init();
   }
@@ -39,51 +42,52 @@ export default class LcCity {
   renderHtml() {
     let html = `<div class="lc-city-body">
                   <div class="lc-titile">
-                    <button class="lc-btn lc-cancel" id="lcCancel">取消</button>
+                    <button class="lc-btn lc-cancel lc_cancel" id="lcCancel">取消</button>
                     <h4 class="lc-top-title">选择地区</h4>
-                    <button class="lc-btn lc-cancel" id="lcConfirm">确定</button>
+                    <button class="lc-btn lc-cancel lc_confirm" id="lcConfirm">确定</button>
                   </div>
-                  <div class="lc-nav-wrap" id="lcNav">
+                  <div class="lc-nav-wrap lc_nav" id="lcNav">
                     <span class="lc-nav active">请选择</span>
                   </div>
-                  <div class="lc-center" id="lcCenter">
+                  <div class="lc-center lc_center" id="lcCenter">
                     <ul class="lc-ul">
-                    <div class="lc-scroll" id="lcProvince">
+                    <div class="lc-scroll lc_province" id="lcProvince">
                     </div>
                     </ul>
                     <ul class="lc-ul">
-                      <div class="lc-scroll" id="lcCity">
+                      <div class="lc-scroll lc_city" id="lcCity">
                       </div>
                     </ul>
                     <ul class="lc-ul">
-                      <div class="lc-scroll" id="lcDistrict">
+                      <div class="lc-scroll lc_district" id="lcDistrict">
                       </div>
                     </ul>
                   </div>
                 </div>
-                <div class="lc-city-mask" id="lcCityMask"></div>
-                <div class="lc-error-tip" id="lcErrorTip"></div>`;
+                <div class="lc-city-mask lc_city_mask" id="lcCityMask"></div>
+                <div class="lc-error-tip lc_error_tip" id="lcErrorTip"></div>`;
 
     let div = document.createElement('div');
     div.className = 'lc-city-select';
-    div.id = 'lcCitySelect';
+    div.id = 'lcCitySelect' + this.randomNum;
     div.innerHTML = html;
     document.body.appendChild(div);
   }
   // 获取页面元素
   getElement() {
     // 页面元素
+    let lcCitySelect = document.getElementById('lcCitySelect' + this.randomNum);
     this.el = {
-      lcCitySelect: document.getElementById('lcCitySelect'),
-      lcCityMask  : document.getElementById('lcCityMask'),
-      lcErrorTip  : document.getElementById('lcErrorTip'),
-      lcCancel    : document.getElementById('lcCancel'),
-      lcConfirm   : document.getElementById('lcConfirm'),
-      lcNav       : document.getElementById('lcNav'),
-      lcCenter    : document.getElementById('lcCenter'),
-      lcProvince  : document.getElementById('lcProvince'),
-      lcCity      : document.getElementById('lcCity'),
-      lcDistrict  : document.getElementById('lcDistrict'),
+      lcCitySelect: lcCitySelect,
+      lcCityMask  : lcCitySelect.getElementsByClassName('lc_city_mask')[0],
+      lcErrorTip  : lcCitySelect.getElementsByClassName('lc_error_tip')[0],
+      lcCancel    : lcCitySelect.getElementsByClassName('lc_cancel')[0],
+      lcConfirm   : lcCitySelect.getElementsByClassName('lc_confirm')[0],
+      lcNav       : lcCitySelect.getElementsByClassName('lc_nav')[0],
+      lcCenter    : lcCitySelect.getElementsByClassName('lc_center')[0],
+      lcProvince  : lcCitySelect.getElementsByClassName('lc_province')[0],
+      lcCity      : lcCitySelect.getElementsByClassName('lc_city')[0],
+      lcDistrict  : lcCitySelect.getElementsByClassName('lc_district')[0],
     };
   }
   // 事件
