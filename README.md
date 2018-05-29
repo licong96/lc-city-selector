@@ -2,6 +2,7 @@
 ----------
 ## 效果 ##
 演示地址：[https://licong96.github.io/demo/lc-city-selector/dist/][1]
+
 ![效果][2]
 ## 无依赖 ##
 纯js手写，不依赖任何插件
