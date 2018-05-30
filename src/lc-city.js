@@ -21,6 +21,7 @@ export default class LcCity {
     if (option.data) {
       this.isFill = true;
     };
+    this.timeNav = null;   // 防止导航渲染重复渲染
 
     // 生成一个随机数
     this.randomNum = parseInt(Math.random() * 1000);
@@ -309,41 +310,54 @@ export default class LcCity {
 
   // 渲染导航
   renderNav() {
-    let lcNav   = this.el.lcNav,
-        aSpan   = lcNav.getElementsByTagName('span'),
-        select  = this.select,
-        index   = 0,    // 下标记录
-        html    = '';
-
-    // console.log(select)
-    for (let key in select) {
-      if (select[key]) {
-        html += `<span class="lc-nav">${select[key]}</span>`;
-        index++
-      }
-      else {
-        html += `<span class="lc-nav">请选择</span>`;
-        if (index === 1) {    // 选中省份的时候，只需要个请选择项
-          break
+    var _line = () => {
+      let lcNav   = this.el.lcNav,
+          aSpan   = lcNav.getElementsByTagName('span'),
+          select  = this.select,
+          index   = 0,    // 下标记录
+          html    = '';
+  
+      console.log(select)
+      for (let key in select) {
+        if (select[key]) {
+          html += `<span class="lc-nav">${select[key]}</span>`;
+          index++
         }
-      }
-    };
-    lcNav.innerHTML = html;
-
-    setTimeout(() => {
-      _lc.addClass(aSpan[index-1], 'active');   // 给对应的选项添加class
-
-      // 如果是回填，这里添加class有点不一样了
-      if (this.isFill) {
-        this.fillCount.nav = true;    // 只执行一次
-        for (let i = 0, length = aSpan.length; i < length; i++) {
-          _lc.removeClass(aSpan[i], 'active');
-        };
-        _lc.addClass(aSpan[aSpan.length-1], 'active');   // 给对应的选项添加class
+        else {
+          html += `<span class="lc-nav">请选择</span>`;
+          if (index === 1) {    // 选中省份的时候，只需要个请选择项
+            break
+          }
+        }
       };
-    }, 30);
+      lcNav.innerHTML = html;
+  
+      setTimeout(() => {
+        _lc.addClass(aSpan[index-1], 'active');   // 给对应的选项添加class
+  
+        // 如果是回填，这里添加class有点不一样了
+        if (this.isFill) {
+          this.fillCount.nav = true;    // 只执行一次
+          for (let i = 0, length = aSpan.length; i < length; i++) {
+            _lc.removeClass(aSpan[i], 'active');
+          };
+          _lc.addClass(aSpan[aSpan.length-1], 'active');   // 给对应的选项添加class
+        };
+      }, 30);
+      
+      this.onNav();   // 给导航添加事件
+    };
     
-    this.onNav();   // 给导航添加事件
+    if (this.isFill) {
+      this.timeNav && clearTimeout(this.timeNav);
+      // 防止重复渲染，已提高性能
+      this.timeNav = setTimeout(() => {
+        _line();
+      }, 30);
+    }
+    else {
+      _line();
+    };
   }
   // 给导航添加事件
   onNav() {
@@ -521,5 +535,6 @@ export default class LcCity {
     };
     // 最后，填入区域选项
     this.select.district = this.option.data.district;
+    this.renderNav();
   }
 };
