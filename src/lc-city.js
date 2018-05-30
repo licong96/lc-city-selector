@@ -43,30 +43,30 @@ export default class LcCity {
   renderHtml() {
     let html = `<div class="lc-city-body">
                   <div class="lc-titile">
-                    <button class="lc-btn lc-cancel lc_cancel" id="lcCancel">取消</button>
+                    <button class="lc-btn lc-cancel lc_cancel">取消</button>
                     <h4 class="lc-top-title">选择地区</h4>
-                    <button class="lc-btn lc-cancel lc_confirm" id="lcConfirm">确定</button>
+                    <button class="lc-btn lc-cancel lc_confirm">确定</button>
                   </div>
-                  <div class="lc-nav-wrap lc_nav" id="lcNav">
+                  <div class="lc-nav-wrap lc_nav">
                     <span class="lc-nav active">请选择</span>
                   </div>
-                  <div class="lc-center lc_center" id="lcCenter">
+                  <div class="lc-center lc_center">
                     <ul class="lc-ul">
-                    <div class="lc-scroll lc_province" id="lcProvince">
+                    <div class="lc-scroll lc_province">
                     </div>
                     </ul>
                     <ul class="lc-ul">
-                      <div class="lc-scroll lc_city" id="lcCity">
+                      <div class="lc-scroll lc_city">
                       </div>
                     </ul>
                     <ul class="lc-ul">
-                      <div class="lc-scroll lc_district" id="lcDistrict">
+                      <div class="lc-scroll lc_district">
                       </div>
                     </ul>
                   </div>
                 </div>
-                <div class="lc-city-mask lc_city_mask" id="lcCityMask"></div>
-                <div class="lc-error-tip lc_error_tip" id="lcErrorTip"></div>`;
+                <div class="lc-city-mask lc_city_mask"></div>
+                <div class="lc-error-tip lc_error_tip"></div>`;
 
     let div = document.createElement('div');
     div.className = 'lc-city-select';
@@ -143,17 +143,51 @@ export default class LcCity {
   }
   // 渲染省份
   renderProvince(arr) {
+    let html = this._renderList(arr);
+    if (html) {
+      this.el.lcProvince.innerHTML = html;
+      this.onProvince();    // 给每个省份添加事件
+    }
+  }
+  // 渲染城市
+  renderCity(arr) {
+    let html = this._renderList(arr);
+    if (html) {
+      this.el.lcCity.innerHTML = html;
+      this.onCity();    // 给每个城市添加事件
+  
+      // 判断是否回填城市
+      if (this.isFill && !this.fillCount.city) {
+        this.fillCount.city = true;     // 只回填一次，否则要出大事
+        this.fillCity()
+      }
+    }
+  } 
+  // 渲染区域
+  renderDistrict(arr) {
+    let html = this._renderList(arr);
+    if (html) {
+      this.el.lcDistrict.innerHTML = html;
+      this.onDistrict();    // 给每个区域添加事件
+  
+      // 判断是否回填区域
+      if (this.isFill && !this.fillCount.district) {
+        this.fillCount.district = true;
+        this.fillDistrict()
+      }
+    }
+  }
+  // 列表渲染列表函数，返回html
+  _renderList(arr) {
     if (!arr.length) {
-      return;
+      return false;
     };
-    let html = '';
 
+    let html = '';
     for (let i = 0, leng = arr.length; i < leng; i++) {
       html += `<li class="lc-li" data-val="${arr[i]}">${arr[i]}<i class="icon"></i></li>`
     };
-    this.el.lcProvince.innerHTML = html;
-
-    this.onProvince();    // 给每个省份添加事件
+    return html;
   }
   // 根据省份获取城市数据
   getDataCity(province) {
@@ -182,25 +216,6 @@ export default class LcCity {
     };
     this.renderCity(arr);   // 渲染城市
   } 
-  // 渲染城市
-  renderCity(arr) {
-    if (!arr.length) {
-      return;
-    };
-    let html = '';
-    for (let i = 0, leng = arr.length; i < leng; i++) {
-      html += `<li class="lc-li" data-val="${arr[i]}">${arr[i]}<i class="icon"></i></li>`
-    };
-    this.el.lcCity.innerHTML = html;
-
-    this.onCity();    // 给每个城市添加事件
-
-    // 判断是否回填城市
-    if (this.isFill && !this.fillCount.city) {
-      this.fillCount.city = true;     // 只回填一次，否则要出大事
-      this.fillCity()
-    }
-  } 
   // 根据城市获取区域数据
   getDataDistrict(city) {
     if (city === this.select.city) {
@@ -223,25 +238,6 @@ export default class LcCity {
     };
 
     this.renderDistrict(arr);    // 渲染区域
-  }
-  // 渲染区域
-  renderDistrict(arr) {
-    if (!arr.length) {
-      return;
-    };
-    let html = '';
-    for (let i = 0, leng = arr.length; i < leng; i++) {
-      html += `<li class="lc-li" data-val="${arr[i]}">${arr[i]}<i class="icon"></i></li>`
-    };
-    this.el.lcDistrict.innerHTML = html;
-
-    this.onDistrict();    // 给每个区域添加事件
-
-    // 判断是否回填区域
-    if (this.isFill && !this.fillCount.district) {
-      this.fillCount.district = true;
-      this.fillDistrict()
-    }
   }
   // 给每个省份添加事件
   onProvince() {
