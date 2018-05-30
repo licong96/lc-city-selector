@@ -1,4 +1,4 @@
-﻿# 省-市-区三级联动选择器
+﻿# 省-市-区三级联动城市选择器
 ----------
 ## 效果 ##
 演示地址：[https://licong96.github.io/demo/lc-city-selector/dist/][1]

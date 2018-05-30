@@ -1,6 +1,6 @@
 {
   "name": "lc-city-selector",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "city-selector",
   "main": "src/lc-city.js",
   "scripts": {

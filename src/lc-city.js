@@ -192,7 +192,6 @@ export default class LcCity {
   // 根据省份获取城市数据
   getDataCity(province) {
     if (province === this.select.province) {
-      // console.log('点了同一个没有什么意思啊')
       return
     };
 
@@ -219,7 +218,6 @@ export default class LcCity {
   // 根据城市获取区域数据
   getDataDistrict(city) {
     if (city === this.select.city) {
-      // console.log('点了同一个没有什么意思啊')
       return
     };
     
@@ -262,9 +260,9 @@ export default class LcCity {
   // 给每个城市添加事件
   onCity() {
     let lcCity  = this.el.lcCity,
-        aLi         = lcCity.getElementsByTagName('li'),
-        _this       = this,
-        val         = '';
+        aLi     = lcCity.getElementsByTagName('li'),
+        _this   = this,
+        val     = '';
     
     for (let i = 0, length = aLi.length; i < length; i++) {
       aLi[i].addEventListener('click', function() {
@@ -313,7 +311,6 @@ export default class LcCity {
           index   = 0,    // 下标记录
           html    = '';
   
-      console.log(select)
       for (let key in select) {
         if (select[key]) {
           html += `<span class="lc-nav">${select[key]}</span>`;
@@ -431,7 +428,7 @@ export default class LcCity {
           
       this.el.lcCitySelect.style.top = offset.top + height + 'px';
       this.el.lcCitySelect.style.left = offset.left + 'px';
-    }
+    };
     
     _lc.addClass(this.el.lcCitySelect, 'lc-show');
     // 回填
@@ -488,7 +485,7 @@ export default class LcCity {
       if (aLi[i].getAttribute('data-val') === province) {
         _lc.addClass(aLi[i], 'active');
         // 设置滚动位置，让当前选中的元素居中显示
-        lcProvince.scrollTop = (i > 4 ? i - 4 : i) * liHeight;
+        i > 5 ? (lcProvince.scrollTop = (i - 4) * liHeight) : '';
       }
     };
 
@@ -505,9 +502,7 @@ export default class LcCity {
       if (aLi[i].getAttribute('data-val') === city) {
         _lc.addClass(aLi[i], 'active');
         // 设置滚动位置，让当前选中的元素居中显示
-        if (i > 5) {
-          lcCity.scrollTop = (i - 4) * liHeight;
-        }
+        i > 5 ? (lcCity.scrollTop = (i - 4) * liHeight) : '';
       }
     };
 
@@ -517,16 +512,14 @@ export default class LcCity {
   fillDistrict() {
     let district      = this.option.data.district,
         lcDistrict    = this.el.lcDistrict,
-        aLi       = lcDistrict.getElementsByTagName('li'),
-        liHeight  = aLi[0].offsetHeight;  // 一个li的高度
+        aLi           = lcDistrict.getElementsByTagName('li'),
+        liHeight      = aLi[0].offsetHeight;  // 一个li的高度
 
     for (let i = 0, length = aLi.length; i < length; i++) {
       if (aLi[i].getAttribute('data-val') === district) {
         _lc.addClass(aLi[i], 'active');
         // 设置滚动位置，让当前选中的元素居中显示
-        if (i > 5) {
-          lcDistrict.scrollTop = (i - 4) * liHeight;
-        }
+        i > 5 ? (lcDistrict.scrollTop = (i - 4) * liHeight) : '';
       }
     };
     // 最后，填入区域选项
