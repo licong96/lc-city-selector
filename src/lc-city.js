@@ -18,7 +18,7 @@ export default class LcCity {
     this.isFill = false;    // 是不是回填
     this.fillCount = {};    // 记录回填的次数
     // 判断是否有data数据，有就是回填
-    if (option.data) {
+    if (option && option.data) {
       this.isFill = true;
     };
     this.timeNav = null;   // 防止导航渲染重复渲染
