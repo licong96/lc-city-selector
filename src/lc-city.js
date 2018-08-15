@@ -1,6 +1,7 @@
-import './lc-city.css';
+import './lc-city.scss';
 import cityData from './data.json';
 import _lc from './util.js';
+import { removeListener } from 'cluster';
 
 export default class LcCity {
   constructor(option) {
@@ -37,6 +38,7 @@ export default class LcCity {
     setTimeout(() => {
       this.getDataProvince();
       this.bindEvent();
+      this.handerTouch();
     }, 30);
   }
   // 渲染页面
@@ -185,7 +187,7 @@ export default class LcCity {
 
     let html = '';
     for (let i = 0, leng = arr.length; i < leng; i++) {
-      html += `<li class="lc-li" data-val="${arr[i]}">${arr[i]}<i class="icon"></i></li>`
+      html += `<li class="lc-li" data-val="${arr[i]}">${arr[i]}</li>`
     };
     return html;
   }
@@ -525,5 +527,38 @@ export default class LcCity {
     // 最后，填入区域选项
     this.select.district = this.option.data.district;
     this.renderNav();
+  }
+
+
+  // 添加滑动时间
+  handerTouch() {
+    let { lcCenter } = this.el;
+
+    let pageX, pageY, pageXMove, pageYMove;
+
+    // 这里加一个触屏事件就可以解决一个移动端滑动bug
+    lcCenter.addEventListener('touchstart', function (e) {
+      // console.log(e)
+      // pageX = e.touches[0].pageX;
+      // pageY = e.touches[0].pageY;
+
+      // this.addEventListener('touchmove', function (e) {
+      //   pageXMove = pageX - e.touches[0].pageX;
+      //   pageYMove = pageY - e.touches[0].pageY;
+
+      //   console.log(pageXMove, pageYMove)
+
+      //   lcCenter.style.transition = 'none';
+      //   lcCenter.style.transform = `translate3d(${-pageXMove}px, 0, 0)`
+
+      //   this.addEventListener('touchend', function () {
+
+
+      //     return false;
+      //   })
+      // })
+    })
+
+
   }
 };

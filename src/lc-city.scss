@@ -191,35 +191,31 @@ html {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      &:before,
+      &:after {
+        display: none;
+        content: "";
+        position: absolute;
+        top: 50%;
+        border-radius: 2px;
+        width: 8px;
+        height: 2px;
+        background-color: $color-primary;
+      }
+      &:before {
+        right: 16px;
+        transform: rotate(45deg);
+      }
+      &:after {
+        right: 4px;
+        width: 16px;
+        transform: translateY(-2px) rotate(-45deg);
+      }
       &.active {
         color: $color-primary;
-        .icon {
-          display: block;
-        }
-      }
-      .icon {
-        display: none;
-        position: absolute;
-        top: 68%;
-        right: 16px;
-        width: 1.2em;
-        height: .3em;
-        background-color: $color-primary;
-        transform: rotate(60deg);
-        transform-origin: right center;
-        border-radius: .15em;
-        font-size: 8px;
+        &:before,
         &:after {
-          content: "";
-          position: absolute;
-          top: .1em;
-          left: -.85em;
-          width: 2em;
-          height: .3em;
-          background-color: $color-primary;
-          transform: rotate(60deg);
-          transform-origin: right center;
-          border-radius: .15em;
+          display: block;
         }
       }
     }
