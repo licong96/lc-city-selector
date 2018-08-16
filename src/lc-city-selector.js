@@ -1,7 +1,7 @@
-import './lc-city.scss';
+import './lc-city-selector.css';
 import cityData from './data.json';
 import _lc from './util.js';
-import { removeListener } from 'cluster';
+// import { removeListener } from 'cluster';
 
 export default class LcCity {
   constructor(option) {

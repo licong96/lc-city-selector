@@ -1,11 +1,12 @@
-import LcCity from './src/lc-city.js';
+import LcCity from './src/lc-city-selector.js';
 
 var baseInput = document.getElementById('base');
 var defaultInput = document.getElementById('default');
 
 var baseCity = new LcCity({
   confirm: function (data) {
-    baseInput.innerHTML = data
+    console.log(data);
+    baseInput.innerHTML = data;
   }
 });
 
@@ -21,7 +22,8 @@ var defaultCity = new LcCity({
     district: '青山湖区',
   },
   confirm: function (data) {
-    defaultInput.innerHTML = data
+    console.log(data);
+    defaultInput.innerHTML = data;
   }
 });
 defaultInput.addEventListener('click', function() {
