@@ -1,14 +1,14 @@
 ﻿# 省-市-区三级联动城市选择器
-----------
+ 
+## 微信小程序版-城市选择器 ##
+[https://github.com/licong96/WeChat-city][3]
+
 ## 效果 ##
 演示地址：[https://licong96.github.io/work/lc-city-selector/index.html][1]
 
 ![效果][2]
 ## 无依赖 ##
 纯js手写，不依赖任何插件，用在移动端比较好，你如果非要用在PC端，我也拦不住你。
-
-## 微信小程序版-城市选择器 ##
-[https://github.com/licong96/WeChat-city][3]
 
 ## 安装 ##
 npm安装或者cnpm：
