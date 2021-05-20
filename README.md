@@ -85,10 +85,10 @@ yarn安装：
 ----------
 
 
-欢迎提出建议和问题，我会第一时间处理
+欢迎提出建议和问题
     
 
 
   [1]: https://licong96.github.io/work/lc-city-selector/index.html
-  [2]: https://licong96.github.io/lib/image/gif/lc-city-selector.gif
+  [2]: https://licong96.github.io/libs/image/gif/lc-city-selector.gif
   [3]: https://github.com/licong96/WeChat-city
